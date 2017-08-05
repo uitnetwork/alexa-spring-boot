@@ -1,8 +1,8 @@
 package com.uitnetwork.alexa.service
 
 import com.amazon.speech.speechlet.SpeechletResponse
-import com.uitnetwork.alexa.model.AlexaIntent.TIME_INTENT
-import com.uitnetwork.alexa.model.AlexaIntentRequest
+import com.uitnetwork.alexa.model.Intent.TIME_INTENT
+import com.uitnetwork.alexa.model.IntentRequest
 import com.uitnetwork.alexa.util.AppConstants.Companion.SESSION_NAME
 import org.slf4j.LoggerFactory.getLogger
 import org.springframework.beans.factory.annotation.Autowired
@@ -12,8 +12,8 @@ import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
 @Service
-class TimeIntentService : AlexaIntentRequestService() {
-    private val logger = getLogger(TimeIntentService::class.java)
+class TimeIntentProcessorService : IntentRequestProcessorService {
+    private val logger = getLogger(TimeIntentProcessorService::class.java)
 
     companion object {
         private val SINGAPORE_ZONE_ID = ZoneId.of("Asia/Singapore")
@@ -25,8 +25,8 @@ class TimeIntentService : AlexaIntentRequestService() {
     @Autowired
     private lateinit var speechletResponseService: SpeechletResponseService
 
-    override fun doProcess(alexaIntentRequest: AlexaIntentRequest): SpeechletResponse {
-        val sessionName = alexaIntentRequest.intentRequestEnvelope.session.getAttribute(SESSION_NAME)
+    override fun doProcess(intentRequest: IntentRequest): SpeechletResponse {
+        val sessionName = intentRequest.originalRequestEnvelope.session.getAttribute(SESSION_NAME)
         logger.info("SessionName: {}", sessionName)
         val name = sessionName as String
 
@@ -38,7 +38,7 @@ class TimeIntentService : AlexaIntentRequestService() {
         return speechletResponseService.newTellResponse(ssmlMessage)
     }
 
-    override fun canProcess(alexaIntentRequest: AlexaIntentRequest): Boolean {
-        return TIME_INTENT == alexaIntentRequest.alexaIntent
+    override fun canProcess(intentRequest: IntentRequest): Boolean {
+        return TIME_INTENT == intentRequest.intent
     }
 }

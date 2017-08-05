@@ -3,19 +3,20 @@ package com.uitnetwork.alexa.model
 import com.uitnetwork.alexa.exception.AlexaException
 import java.util.*
 
-enum class AlexaIntent private constructor(private val intent: String) {
+enum class Intent(private val intent: String) {
     MY_NAME_INTENT("MyNameIntent"),
     TIME_INTENT("TimeIntent");
 
     companion object {
-        private val alexaIntentMap = HashMap<String, AlexaIntent>()
+        private val alexaIntentMap = HashMap<String, Intent>()
+
         init {
-            for (alexaIntent in AlexaIntent.values()) {
+            for (alexaIntent in Intent.values()) {
                 alexaIntentMap.put(alexaIntent.intent, alexaIntent)
             }
         }
 
-        fun lookupAlexaIntent(intent: String): AlexaIntent {
+        fun lookupAlexaIntent(intent: String): Intent {
             val alexaIntent = alexaIntentMap[intent]
             return alexaIntent ?: throw AlexaException("Intent: $intent is not supported!")
         }

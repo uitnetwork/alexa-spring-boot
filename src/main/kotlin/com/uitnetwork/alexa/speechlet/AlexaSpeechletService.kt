@@ -1,20 +1,24 @@
-package com.uitnetwork.alexa.service
+package com.uitnetwork.alexa.speechlet
 
 import com.amazon.speech.json.SpeechletRequestEnvelope
 import com.amazon.speech.speechlet.*
+import com.uitnetwork.alexa.service.AlexaIntentRequestManager
+import com.uitnetwork.alexa.service.IntentRequestTranslatorService
+import com.uitnetwork.alexa.service.IntroductionService
+import com.uitnetwork.alexa.service.TimeIntentProcessorService
 import org.slf4j.LoggerFactory.getLogger
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
 @Service
-class SpeechletService : SpeechletV2 {
-    private val logger = getLogger(TimeIntentService::class.java)
+class AlexaSpeechletService : SpeechletV2 {
+    private val logger = getLogger(TimeIntentProcessorService::class.java)
 
     @Autowired
     private lateinit var introductionService: IntroductionService
 
     @Autowired
-    private lateinit var alexaIntentRequestMappingService: AlexaIntentRequestMappingService
+    private lateinit var intentRequestTranslatorService: IntentRequestTranslatorService
 
     @Autowired
     private lateinit var alexaIntentRequestManager: AlexaIntentRequestManager
@@ -31,7 +35,7 @@ class SpeechletService : SpeechletV2 {
     override fun onIntent(requestEnvelope: SpeechletRequestEnvelope<IntentRequest>): SpeechletResponse {
         logger.info("onIntent requestId={}, sessionId={}", requestEnvelope.request.requestId, requestEnvelope.session.sessionId)
 
-        val alexaIntentRequest = alexaIntentRequestMappingService.translate(requestEnvelope)
+        val alexaIntentRequest = intentRequestTranslatorService.translate(requestEnvelope)
         return alexaIntentRequestManager.process(alexaIntentRequest)
     }
 

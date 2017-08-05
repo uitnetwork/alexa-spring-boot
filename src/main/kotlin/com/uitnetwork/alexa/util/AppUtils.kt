@@ -1,6 +1,6 @@
 package com.uitnetwork.alexa.util
 
-import com.uitnetwork.alexa.service.TimeIntentService
+import com.uitnetwork.alexa.service.TimeIntentProcessorService
 import com.uitnetwork.alexa.util.AppConstants.Companion.ENV_VARIABLE_SUPPORTED_APP_IDS
 import com.uitnetwork.alexa.util.AppConstants.Companion.SUPPORTED_APP_ID_SEPERATOR
 import org.slf4j.LoggerFactory.getLogger
@@ -9,7 +9,7 @@ import java.util.*
 import java.util.Arrays.asList
 
 object AppUtils {
-    private val logger = getLogger(TimeIntentService::class.java)
+    private val logger = getLogger(TimeIntentProcessorService::class.java)
 
 
     val supportedAppIds: Set<String>

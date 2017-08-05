@@ -1,7 +1,7 @@
 package com.uitnetwork.alexa.config
 
 import com.amazon.speech.speechlet.servlet.SpeechletServlet
-import com.uitnetwork.alexa.speechlet.AlexaSpeechlet
+import com.uitnetwork.alexa.speechlet.AlexaSpeechletService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.web.servlet.FilterRegistrationBean
 import org.springframework.boot.web.servlet.ServletRegistrationBean
@@ -16,12 +16,12 @@ class AlexaConfig {
     }
 
     @Autowired
-    private lateinit var alexaSpeechlet: AlexaSpeechlet
+    private lateinit var alexaSpeechletService: AlexaSpeechletService
 
     @Bean
     fun registerServlet(): ServletRegistrationBean {
         val speechletServlet = SpeechletServlet()
-        speechletServlet.setSpeechlet(alexaSpeechlet)
+        speechletServlet.setSpeechlet(alexaSpeechletService)
 
         val servletRegistrationBean = ServletRegistrationBean(speechletServlet, ALEXA_URL)
         return servletRegistrationBean
